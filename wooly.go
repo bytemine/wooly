@@ -10,9 +10,6 @@ import (
 	"time"
 )
 
-
-//"2006-01-02T15:04:05.9999Z", "2006-01-02 15:04:05", "2006-01-02", 
-
 // Layouts is a collection of time formats used in JSON unmarshaling of type Time.
 var Layouts = []string{time.ANSIC, time.UnixDate, time.RubyDate, time.RFC822, time.RFC822Z, time.RFC850, time.RFC1123, time.RFC1123Z, time.RFC3339, time.RFC3339Nano, time.Kitchen, time.Stamp, time.StampMilli, time.StampMicro, time.StampNano}
 
@@ -45,6 +42,16 @@ func New(t time.Time) *Time {
 	return &Time{Time: t}
 }
 
+// Parse parses a formatted string and returns the time value it represents. It tries to parse with all layouts, returning the error
+// of the last tried layout if none succeeds. If layouts is nil, wooly.Layouts is used.
+func Parse(layouts []string, value string) (*Time, error) {
+	if layouts == nil {
+		layouts = Layouts
+	}
+	x, err := parseTime(layouts, value)
+	return New(x), err
+}
+
 func (t *Time) Layouts() []string {
 	return t.layouts
 }
@@ -71,7 +78,7 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	var layouts []string
 	if t.layouts != nil {
-		layouts = t.layouts
+		layouts = append(t.layouts, Layouts...)
 	} else {
 		layouts = Layouts
 	}
