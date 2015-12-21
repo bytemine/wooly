@@ -1,4 +1,4 @@
-/* Package wooly wraps Gos default time.Time type to be more fluffy.
+/*Package wooly wraps Gos default time.Time type to be more fluffy.
 
 It sports a custom UnmarshalJSON implementation which trys to parse multiple time formats before failing.
 Also the Time type is a pointer (in contrast to the default time.Time), so that zero values are not marshalled for omitempty tagged fields
@@ -11,6 +11,7 @@ import (
 )
 
 // Layouts is a collection of time formats used in JSON unmarshaling of type Time.
+// The default set consists of all constants defined in time.
 var Layouts = []string{time.ANSIC, time.UnixDate, time.RubyDate, time.RFC822, time.RFC822Z, time.RFC850, time.RFC1123, time.RFC1123Z, time.RFC3339, time.RFC3339Nano, time.Kitchen, time.Stamp, time.StampMilli, time.StampMicro, time.StampNano}
 
 // parseTime tries to parse a string as multiple time formats (like those of time.Parse).
@@ -37,7 +38,7 @@ type Time struct {
 	layouts []string
 }
 
-// NewTime returns a new Time value from a time.Time value.
+// New returns a new Time value from a time.Time value.
 func New(t time.Time) *Time {
 	return &Time{Time: t}
 }
@@ -52,10 +53,12 @@ func Parse(layouts []string, value string) (*Time, error) {
 	return New(x), err
 }
 
+// Layouts returns the layouts a Time object uses.
 func (t *Time) Layouts() []string {
 	return t.layouts
 }
 
+// SetLayouts sets the layouts a Time object uses.
 func (t *Time) SetLayouts(layouts []string) {
 	t.layouts = layouts
 }
@@ -74,11 +77,11 @@ func (t *Time) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface.
-// The unmarshaling only fails when parsing has failed for every layout.
+// The unmarshaling only fails when parsing has failed for every layout (with the objects own layouts overriding the packages).
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	var layouts []string
 	if t.layouts != nil {
-		layouts = append(t.layouts, Layouts...)
+		layouts = t.layouts
 	} else {
 		layouts = Layouts
 	}

@@ -1,9 +1,10 @@
 package wooly
 
 import (
-	"time"
 	"testing"
+	"time"
 )
+
 var testLayouts = []string{time.ANSIC, time.RubyDate}
 
 func TestParseTime(t *testing.T) {
@@ -12,11 +13,11 @@ func TestParseTime(t *testing.T) {
 		t.Error(err)
 	}
 
-	if h,m,s := x.Clock(); h != 15 || m != 04 || s != 05 {
+	if h, m, s := x.Clock(); h != 15 || m != 04 || s != 05 {
 		t.Fail()
 	}
 
-	if y,m,d := x.Date(); y != 2006 || m != time.January || d != 2 {
+	if y, m, d := x.Date(); y != 2006 || m != time.January || d != 2 {
 		t.Fail()
 	}
 
@@ -51,11 +52,11 @@ func TestUnmarshalJSON(t *testing.T) {
 		t.Error(err)
 	}
 
-	if h,m,s := x.Clock(); h != 15 || m != 04 || s != 05 {
+	if h, m, s := x.Clock(); h != 15 || m != 04 || s != 05 {
 		t.Fail()
 	}
 
-	if y,m,d := x.Date(); y != 2006 || m != time.January || d != 2 {
+	if y, m, d := x.Date(); y != 2006 || m != time.January || d != 2 {
 		t.Fail()
 	}
 
@@ -65,11 +66,11 @@ func TestUnmarshalJSON(t *testing.T) {
 		t.Error(err)
 	}
 
-	if h,m,s := x.Clock(); h != 15 || m != 04 || s != 05 {
+	if h, m, s := x.Clock(); h != 15 || m != 04 || s != 05 {
 		t.Fail()
 	}
 
-	if y,m,d := x.Date(); y != 2006 || m != time.January || d != 2 {
+	if y, m, d := x.Date(); y != 2006 || m != time.January || d != 2 {
 		t.Fail()
 	}
 
