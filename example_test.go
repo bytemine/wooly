@@ -63,7 +63,7 @@ func ExampleTime_MarshalJSON_ownlayouts() {
 func ExampleTime_UnmarshalJSON() {
 	// JSON-RubyDate
 	buf := []byte(`"Mon Jan 02 15:04:05 -0700 2006"`)
-	
+
 	var x Time
 
 	json.Unmarshal(buf, &x)
@@ -76,7 +76,7 @@ func ExampleTime_UnmarshalJSON() {
 func ExampleTime_UnmarshalJSON_ownlayouts() {
 	// Timestamp in a really nasty layout
 	buf := []byte(`"06 January 2018 11 hours 44 minutes 55 seconds"`)
-	
+
 	var x Time
 	// Set the layouts of the time struct
 	x.SetLayouts([]string{"02 January 2006 15 hours 04 minutes 05 seconds"})
@@ -91,7 +91,7 @@ func ExampleTime_UnmarshalJSON_ownlayouts() {
 func ExampleTime_UnmarshalJSON_fail() {
 	// Timestamp in a really nasty layout
 	buf := []byte(`"06 January 2018 11 hours 44 minutes 55 seconds"`)
-	
+
 	var x Time
 
 	// This will fail as no matching layout is defined.

@@ -29,7 +29,7 @@ func parseTime(layouts []string, value string) (time.Time, error) {
 	for _, v := range layouts {
 		var t time.Time
 		t, err = time.Parse(v, value)
-		
+
 		// continue to the next layout
 		if err != nil {
 			continue
