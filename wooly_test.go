@@ -31,13 +31,14 @@ func TestMarshalJSON(t *testing.T) {
 	y, err := time.Parse(time.RubyDate, "Mon Jan 02 15:04:05 -0700 2006")
 
 	x := New(y)
+	x.SetLayouts(testLayouts)
+
 	jx, err := x.MarshalJSON()
 	if err != nil {
 		t.Error(err)
 	}
 
 	if string(jx) != `"Mon Jan  2 15:04:05 2006"` {
-		t.Log(string(jx))
 		t.Fail()
 	}
 }
