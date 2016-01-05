@@ -29,12 +29,21 @@ func parseTime(layouts []string, value string) (time.Time, error) {
 	for _, v := range layouts {
 		var t time.Time
 		t, err = time.Parse(v, value)
+		
+		// continue to the next layout
 		if err != nil {
 			continue
 		}
+
+		// parsed successfully
 		return t, nil
 	}
-	return time.Time{}, err
+
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return time.Time{}, ErrNoLayout
 }
 
 // Time is time.Time with custom json marshaling methods.
@@ -62,9 +71,13 @@ func Parse(layouts []string, value string) (*Time, error) {
 	}
 
 	x, err := parseTime(layouts, value)
+	if err != nil {
+		return nil, err
+	}
+
 	t.Time = x
 
-	return t, err
+	return t, nil
 }
 
 // Layouts returns the layouts a Time object uses.
